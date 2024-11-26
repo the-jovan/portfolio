@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* h1 {
+  font-family: "chakraPetch";
+  font-size: 48px;
+}
+
+p {
+  font-family: "cormorant";
+  font-size: 32px;
+  width: 500px;
+  font-weight: 600;
+} */
+
+.main {
+  width: calc(100vw - 120px);
+  margin-left: 120px;
+}

@@ -1,0 +1,57 @@
+.header {
+  &-aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 120px;
+    height: 100vh;
+    border-right: 1px solid $black;
+
+    &__logo {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 120px;
+      height: 120px;
+      border-bottom: 1px solid $black;
+      cursor: pointer;
+    }
+
+    &__toggle {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      top: 1px;
+      left: 0;
+      height: 116px;
+      width: 8px;
+      background: $black;
+      overflow: hidden;
+
+      &__hamburger {
+        font-size: 72px;
+        color: $white;
+      }
+    }
+  }
+
+  &-nav {
+    position: fixed;
+    top: 0;
+    left: 120px;
+
+    width: calc(100vw - 120px);
+    height: 0;
+    background: $black;
+    color: $white;
+    overflow: hidden;
+
+    &__link {
+      font-size: 48px;
+      color: $white;
+      text-decoration: none;
+      opacity: 0;
+    }
+  }
+}
