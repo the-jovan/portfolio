@@ -1,10 +1,15 @@
 import React from "react";
+import Image from "next/image";
+import "./hero.scss";
 
 const Hero: React.FC = () => {
   return (
     <section className="hero">
-      <h1>Welcome to My Portfolio</h1>
-      <p>This is the hero section of the portfolio.</p>
+      <div className="hero__content">
+        <h1 className="hero__title">
+          Live to <span>dye</span> another day.
+        </h1>
+      </div>
     </section>
   );
 };

@@ -1,19 +1,26 @@
 "use client";
 import { FC, useState, useRef } from "react";
 import { IoIosMenu } from "react-icons/io";
+import { TbArrowBigUpLines } from "react-icons/tb";
 import Image from "next/image";
 import "./header.scss";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Link from "next/link";
+import { classNames } from "@/app/shared/utils";
 
 const Header: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [blockLogo, setBlockLogo] = useState(false);
 
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Something", href: "/something" },
+  ];
+
   const navRef = useRef(null);
-  const logoRef = useRef(null);
-  const link1Ref = useRef(null);
+  const logoRef = useRef<HTMLDivElement | null>(null);
 
   const openTl = gsap.timeline({ paused: true });
   const closeTl = gsap.timeline({ paused: true });
@@ -28,27 +35,11 @@ const Header: FC = () => {
       ease: "power4.out",
     });
     openTl.to(
-      link1Ref.current,
+      ".header-nav__link",
       {
         duration: 0.4,
         opacity: 1,
-        onComplete: () => {
-          setBlockLogo(false);
-        },
-      },
-      "+=.2"
-    );
-
-    closeTl.to(link1Ref.current, {
-      duration: 0.4,
-      opacity: 0,
-    });
-    closeTl.to(
-      navRef.current,
-      {
-        duration: 0.4,
-        height: "0",
-        padding: "0",
+        y: 0,
         ease: "power4.out",
         onComplete: () => {
           setBlockLogo(false);
@@ -57,37 +48,104 @@ const Header: FC = () => {
       "+=.2"
     );
 
+    closeTl.to(".header-nav__link", {
+      duration: 0.4,
+      opacity: 0,
+      y: 8,
+      ease: "power4.out",
+    });
+    closeTl.to(navRef.current, {
+      duration: 0.4,
+      height: "0",
+      padding: "0",
+      ease: "power4.out",
+      onComplete: () => {
+        setBlockLogo(false);
+      },
+    });
+
     if (menuOpen) {
       openTl.play();
       closeTl.pause();
+      gsap.fromTo(
+        logoRef.current!.querySelector("#menu-close"),
+        {
+          scale: 1,
+          opacity: 0,
+        },
+        {
+          duration: 0.6,
+          scale: 0.6,
+          opacity: 1,
+          ease: "power4.out",
+        }
+      );
     } else {
       openTl.pause();
       closeTl.play();
+      gsap.fromTo(
+        logoRef.current!.querySelector("#menu-open"),
+        {
+          scale: 0.6,
+          opacity: 0,
+        },
+        {
+          duration: 0.6,
+          scale: 1,
+          opacity: 1,
+          ease: "power4.out",
+        }
+      );
     }
   }, [menuOpen]);
 
-  const { contextSafe } = useGSAP({ scope: logoRef });
+  const { contextSafe } = useGSAP({ scope: navRef });
   const onHoverLogo = contextSafe(() => {
+    if (menuOpen) return;
     gsap.to(logoRef.current, {
-      duration: 0.3,
+      duration: 0.2,
       width: "118px",
       ease: "power4.out",
     });
   });
   const onUnhoverLogo = contextSafe(() => {
+    if (menuOpen) return;
     gsap.to(logoRef.current, {
-      duration: 0.3,
-      width: "8px",
+      duration: 0.2,
+      width: "6px",
       ease: "power4.out",
+    });
+  });
+
+  const onHoverLink = contextSafe((e: any) => {
+    gsap.to(e.currentTarget, {
+      duration: 0.1,
+      x: 8,
+    });
+  });
+  const onUnhoverLink = contextSafe((e: any) => {
+    gsap.to(e.currentTarget, {
+      duration: 0.1,
+      x: 0,
     });
   });
 
   return (
     <header>
       <nav ref={navRef} className="header-nav">
-        <Link ref={link1Ref} className="header-nav__link" href="/about">
-          About
-        </Link>
+        <div className="header-nav__global">
+          {navLinks.map((link, index) => (
+            <Link
+              key={index}
+              href={link.href}
+              className="header-nav__link"
+              onMouseOver={(e) => onHoverLink(e)}
+              onMouseOut={(e) => onUnhoverLink(e)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
       </nav>
       <aside className="header-aside">
         <div
@@ -97,13 +155,30 @@ const Header: FC = () => {
           onMouseLeave={onUnhoverLogo}
         >
           <Image
+            className="header-aside__logo__image"
             src="/assets/images/logo.webp"
             alt="Jovan Jocic"
             width={80}
             height={80}
           />
-          <div className="header-aside__toggle" ref={logoRef}>
-            <IoIosMenu className="header-aside__toggle__hamburger" />
+          <div
+            className={classNames(
+              "header-aside__toggle",
+              menuOpen && "header-aside__toggle--active"
+            )}
+            ref={logoRef}
+          >
+            {menuOpen ? (
+              <TbArrowBigUpLines
+                id="menu-close"
+                className="header-aside__toggle__icon"
+              />
+            ) : (
+              <IoIosMenu
+                id="menu-open"
+                className="header-aside__toggle__icon"
+              />
+            )}
           </div>
         </div>
       </aside>

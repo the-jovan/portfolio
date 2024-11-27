@@ -6,7 +6,7 @@
 
     width: 120px;
     height: 100vh;
-    border-right: 1px solid $black;
+    border-right: 1px solid $white50;
 
     &__logo {
       position: relative;
@@ -14,8 +14,12 @@
       place-items: center;
       width: 120px;
       height: 120px;
-      border-bottom: 1px solid $black;
+      border-bottom: 1px solid $white50;
       cursor: pointer;
+
+      &__image {
+        filter: invert(1);
+      }
     }
 
     &__toggle {
@@ -25,13 +29,23 @@
       top: 1px;
       left: 0;
       height: 116px;
-      width: 8px;
+      width: 6px;
       background: $black;
       overflow: hidden;
+      &--active {
+        width: 118px;
 
-      &__hamburger {
-        font-size: 72px;
+        &:hover {
+          .header-aside__toggle__icon {
+            color: $primary;
+          }
+        }
+      }
+
+      &__icon {
+        font-size: 48px;
         color: $white;
+        transition: 0.2s color;
       }
     }
   }
@@ -47,11 +61,35 @@
     color: $white;
     overflow: hidden;
 
+    &__global {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
     &__link {
       font-size: 48px;
       color: $white;
       text-decoration: none;
       opacity: 0;
+      display: inline-block;
+      transform: translateY(8px);
+      width: fit-content;
+
+      &::before {
+        content: ">";
+        transition: opacity 0.1s;
+        opacity: 0;
+      }
+
+      &:hover {
+        color: $primary;
+        text-shadow: 0 0 1px $white;
+
+        &::before {
+          opacity: 1;
+        }
+      }
     }
   }
 }

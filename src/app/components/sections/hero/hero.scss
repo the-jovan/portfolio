@@ -1,0 +1,26 @@
+@use "./src/app/styles/mixins";
+
+.hero {
+  height: 100vh;
+  background: url("/assets/images/hero_bg.webp") center/cover no-repeat;
+
+  &__content {
+    @include container;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  &__title {
+    font-family: "chakraPetch";
+    font-weight: 700;
+    font-size: 64px;
+    color: $white;
+    text-shadow: 0 0 2px $black;
+
+    span {
+      color: $primary;
+      text-shadow: 0 0 2px $white;
+    }
+  }
+}
