@@ -44,6 +44,24 @@ const cormorant = localFont({
   display: "swap",
 });
 
+const chathura = localFont({
+  src: [
+    {
+      path: "./fonts/chathura-v20-latin-100.woff2",
+      weight: "100",
+    },
+    {
+      path: "./fonts/chathura-v20-latin-300.woff2",
+      weight: "300",
+    },
+    {
+      path: "./fonts/chathura-v20-latin-regular.woff2",
+      weight: "400",
+    },
+  ],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Jovan Jocic",
   description: "A somewhat experimental personal website.",
@@ -59,7 +77,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${chakraPetch.className} ${cormorant.className}`}>
+      <body
+        className={`${chakraPetch.className} ${cormorant.className} ${chathura.className}`}
+      >
         <Header />
         <main className="main">{children}</main>
       </body>

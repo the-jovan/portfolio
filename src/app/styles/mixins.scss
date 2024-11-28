@@ -1,4 +1,4 @@
 @mixin container {
-  width: calc(100vw - 120px);
+  width: calc(100% - 120px);
   margin-left: 120px;
 }

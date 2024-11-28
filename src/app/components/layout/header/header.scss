@@ -55,20 +55,38 @@
     top: 0;
     left: 120px;
 
-    width: calc(100vw - 120px);
+    width: calc(100% - 120px);
     height: 0;
-    background: $black;
+    background: $black80;
     color: $white;
     overflow: hidden;
+    z-index: 999;
 
     &__global {
       display: flex;
-      flex-direction: column;
-      gap: 24px;
+
+      &__heading {
+        font-size: 40px;
+        font-weight: 100;
+        color: $white50;
+        margin-bottom: 24px;
+        transform: translateY(-8px);
+        opacity: 0;
+      }
+
+      &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 240px;
+      }
     }
 
     &__link {
+      font-family: "chathura";
+      font-weight: 100;
       font-size: 48px;
+      line-height: 1;
       color: $white;
       text-decoration: none;
       opacity: 0;
@@ -76,15 +94,8 @@
       transform: translateY(8px);
       width: fit-content;
 
-      &::before {
-        content: ">";
-        transition: opacity 0.1s;
-        opacity: 0;
-      }
-
       &:hover {
         color: $primary;
-        text-shadow: 0 0 1px $white;
 
         &::before {
           opacity: 1;

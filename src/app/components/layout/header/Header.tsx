@@ -1,13 +1,15 @@
 "use client";
 import { FC, useState, useRef } from "react";
-import { IoIosMenu } from "react-icons/io";
-import { TbArrowBigUpLines } from "react-icons/tb";
-import Image from "next/image";
 import "./header.scss";
+import { classNames } from "@/app/shared/utils";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { IoIosMenu, IoIosClose } from "react-icons/io";
+
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Link from "next/link";
-import { classNames } from "@/app/shared/utils";
 
 const Header: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,84 +24,121 @@ const Header: FC = () => {
   const navRef = useRef(null);
   const logoRef = useRef<HTMLDivElement | null>(null);
 
-  const openTl = gsap.timeline({ paused: true });
-  const closeTl = gsap.timeline({ paused: true });
-
-  useGSAP(() => {
-    setBlockLogo(true);
-
-    openTl.to(navRef.current, {
-      duration: 0.4,
-      height: menuOpen ? "100vh" : "0",
-      padding: menuOpen ? "120px" : "0",
-      ease: "power4.out",
-    });
-    openTl.to(
-      ".header-nav__link",
-      {
-        duration: 0.4,
-        opacity: 1,
-        y: 0,
-        ease: "power4.out",
-        onComplete: () => {
-          setBlockLogo(false);
-        },
-      },
-      "+=.2"
-    );
-
-    closeTl.to(".header-nav__link", {
-      duration: 0.4,
-      opacity: 0,
-      y: 8,
-      ease: "power4.out",
-    });
-    closeTl.to(navRef.current, {
-      duration: 0.4,
-      height: "0",
-      padding: "0",
-      ease: "power4.out",
-      onComplete: () => {
-        setBlockLogo(false);
-      },
-    });
-
-    if (menuOpen) {
-      openTl.play();
-      closeTl.pause();
-      gsap.fromTo(
-        logoRef.current!.querySelector("#menu-close"),
-        {
-          scale: 1,
-          opacity: 0,
-        },
-        {
-          duration: 0.6,
-          scale: 0.6,
-          opacity: 1,
-          ease: "power4.out",
-        }
-      );
-    } else {
-      openTl.pause();
-      closeTl.play();
-      gsap.fromTo(
-        logoRef.current!.querySelector("#menu-open"),
-        {
-          scale: 0.6,
-          opacity: 0,
-        },
-        {
-          duration: 0.6,
-          scale: 1,
-          opacity: 1,
-          ease: "power4.out",
-        }
-      );
-    }
-  }, [menuOpen]);
-
   const { contextSafe } = useGSAP({ scope: navRef });
+
+  const openTl = gsap.timeline({
+    paused: true,
+    defaults: {
+      duration: 0.4,
+      ease: "power3.out",
+    },
+    onStart: () => {
+      setBlockLogo(true);
+      document
+        .querySelectorAll(".hideable")
+        .forEach((i) => i.classList.add("hide"));
+    },
+    onComplete: () => {
+      setBlockLogo(false);
+    },
+  });
+  const closeTl = gsap.timeline({
+    paused: true,
+    defaults: {
+      duration: 0.4,
+      ease: "power3.out",
+    },
+    onStart: () => {
+      setBlockLogo(true);
+    },
+    onComplete: () => {
+      setBlockLogo(false);
+      document
+        .querySelectorAll(".hideable")
+        .forEach((i) => i.classList.remove("hide"));
+    },
+  });
+
+  useGSAP(
+    () => {
+      openTl
+        .to(navRef.current, {
+          height: "100vh",
+          padding: "120px",
+        })
+        .to(".header-nav__global__heading", {
+          opacity: 1,
+          y: 0,
+        })
+        .to(
+          ".header-nav__link",
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.05,
+          },
+          "-=.4"
+        );
+
+      closeTl
+        .to(".header-nav__link", {
+          opacity: 0,
+          y: 8,
+        })
+        .to(
+          ".header-nav__global__heading",
+          {
+            opacity: 0,
+            y: -8,
+          },
+          "-=.4"
+        )
+        .to(
+          navRef.current,
+          {
+            height: "0",
+            padding: "0",
+          },
+          "-=.2"
+        );
+
+      if (menuOpen) {
+        openTl.play();
+        closeTl.pause();
+        gsap.fromTo(
+          logoRef.current!.querySelector("#menu-close"),
+          {
+            scale: 1,
+            opacity: 0,
+          },
+          {
+            duration: 0.6,
+            scale: 0.8,
+            opacity: 1,
+            ease: "power4.out",
+          }
+        );
+      } else {
+        openTl.pause();
+        closeTl.play();
+        gsap.fromTo(
+          logoRef.current!.querySelector("#menu-open"),
+          {
+            scale: 0.8,
+            opacity: 0,
+          },
+          {
+            duration: 0.6,
+            scale: 1,
+            opacity: 1,
+            ease: "power4.out",
+          }
+        );
+      }
+    },
+    { dependencies: [menuOpen], scope: navRef }
+  );
+
   const onHoverLogo = contextSafe(() => {
     if (menuOpen) return;
     gsap.to(logoRef.current, {
@@ -134,17 +173,38 @@ const Header: FC = () => {
     <header>
       <nav ref={navRef} className="header-nav">
         <div className="header-nav__global">
-          {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className="header-nav__link"
-              onMouseOver={(e) => onHoverLink(e)}
-              onMouseOut={(e) => onUnhoverLink(e)}
-            >
-              {link.name}
-            </Link>
-          ))}
+          <div>
+            <h3 className="header-nav__global__heading">General</h3>
+            <ul className="header-nav__global__list">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  className="header-nav__link"
+                  onMouseOver={(e) => onHoverLink(e)}
+                  onMouseOut={(e) => onUnhoverLink(e)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="header-nav__global__heading">Something else</h3>
+            <ul className="header-nav__global__list">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  className="header-nav__link"
+                  onMouseOver={(e) => onHoverLink(e)}
+                  onMouseOut={(e) => onUnhoverLink(e)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </ul>
+          </div>
         </div>
       </nav>
       <aside className="header-aside">
@@ -169,7 +229,7 @@ const Header: FC = () => {
             ref={logoRef}
           >
             {menuOpen ? (
-              <TbArrowBigUpLines
+              <IoIosClose
                 id="menu-close"
                 className="header-aside__toggle__icon"
               />

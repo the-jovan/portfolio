@@ -4,14 +4,15 @@
   margin: 0;
 }
 
-/* h1 {
-  font-family: "chakraPetch";
-  font-size: 48px;
+// body {
+//   overflow: hidden;
+// }
+
+.hideable {
+  transition: opacity 0.2s;
+  opacity: 1;
 }
 
-p {
-  font-family: "cormorant";
-  font-size: 32px;
-  width: 500px;
-  font-weight: 600;
-} */
+.hide {
+  opacity: 0 !important;
+}
