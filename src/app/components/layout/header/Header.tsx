@@ -170,7 +170,7 @@ const Header: FC = () => {
   });
 
   return (
-    <header>
+    <header className="header">
       <nav ref={navRef} className="header-nav">
         <div className="header-nav__global">
           <div>

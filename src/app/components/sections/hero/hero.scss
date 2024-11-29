@@ -1,11 +1,20 @@
 @use "./src/app/styles/mixins";
 
 .hero {
-  height: 120vh;
+  height: 100vh;
   background: url("/assets/images/hero_bg.webp") center/cover no-repeat;
+
+  &-rain {
+    background-image: url("/assets/images/rain.gif");
+    width: 100%;
+    height: calc(100% - 10vh);
+    position: absolute;
+    opacity: 0.3;
+  }
 
   &__content {
     @include container;
+    position: relative;
     height: 100vh;
     display: grid;
     place-items: center;
@@ -14,14 +23,22 @@
   &__title {
     font-family: "chakraPetch";
     font-weight: 300;
-    font-size: 84px;
-    line-height: 92px;
+    font-size: 48px;
     color: $white;
-    text-shadow: 0 0 2px $black;
+    text-shadow: 0 0 10px $black;
 
     span {
       color: $primary;
       text-shadow: 0 0 2px $white;
     }
+  }
+
+  &__text {
+    position: absolute;
+    bottom: 24px;
+    color: $white;
+    font-size: 40px;
+    text-transform: uppercase;
+    text-align: center;
   }
 }
