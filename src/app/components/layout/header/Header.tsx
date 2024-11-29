@@ -1,5 +1,5 @@
 "use client";
-import { FC, useState, useRef } from "react";
+import { FC, useState, useRef, MouseEvent as ReactMouseEvent } from "react";
 import "./header.scss";
 import { classNames } from "@/app/shared/utils";
 
@@ -156,18 +156,22 @@ const Header: FC = () => {
     });
   });
 
-  const onHoverLink = contextSafe((e: any) => {
-    gsap.to(e.currentTarget, {
-      duration: 0.1,
-      x: 8,
-    });
-  });
-  const onUnhoverLink = contextSafe((e: any) => {
-    gsap.to(e.currentTarget, {
-      duration: 0.1,
-      x: 0,
-    });
-  });
+  const onHoverLink = contextSafe(
+    (e: ReactMouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      gsap.to(e.currentTarget, {
+        duration: 0.1,
+        x: 8,
+      });
+    }
+  );
+  const onUnhoverLink = contextSafe(
+    (e: ReactMouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      gsap.to(e.currentTarget, {
+        duration: 0.1,
+        x: 0,
+      });
+    }
+  );
 
   return (
     <header className="header">

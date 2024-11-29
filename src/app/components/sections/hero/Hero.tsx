@@ -1,6 +1,5 @@
 import React from "react";
 import "./hero.scss";
-import Image from "next/image";
 
 const Hero: React.FC = () => {
   return (
