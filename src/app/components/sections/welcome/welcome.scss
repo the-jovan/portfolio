@@ -1,5 +1,5 @@
 .welcome {
-  height: 60vh;
+  padding-bottom: 10vh;
   background: $pitchblack;
   box-shadow: 0 -10vh 50px $pitchblack;
 
@@ -30,6 +30,70 @@
       font-size: 36px;
       margin-top: 16px;
       color: $white80;
+    }
+  }
+
+  &-intro {
+    margin-top: 96px;
+    font-size: 24px;
+    font-family: "cormorant";
+    font-weight: 400;
+    color: $white;
+  }
+
+  &-row {
+    position: relative;
+    border-bottom: 1px solid $white50;
+    font-size: 24px;
+    line-height: 2;
+    padding: 16px 0;
+    overflow: hidden;
+    transform: translateY(36px);
+    opacity: 0;
+
+    &__text {
+      padding-left: 24px;
+
+      &--first {
+        margin-bottom: 16px;
+      }
+    }
+
+    &__red {
+      color: $primary;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin: 0 4px;
+    }
+
+    &__link {
+      padding-left: 24px;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: $white;
+      transform: translateY(100%);
+      background: $white;
+      color: $black;
+    }
+
+    &__add {
+      color: $primary;
+      margin-left: 8px;
+
+      &-icon {
+        color: $primary;
+
+        &--hidden {
+          display: none;
+        }
+      }
     }
   }
 }
