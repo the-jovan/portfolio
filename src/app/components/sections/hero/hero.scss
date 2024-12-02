@@ -10,6 +10,8 @@
     height: calc(100% - 10vh);
     position: absolute;
     opacity: 0.3;
+    pointer-events: none;
+    user-select: none;
   }
 
   &__content {
@@ -29,7 +31,7 @@
 
     span {
       color: $primary;
-      text-shadow: 0 0 2px $white;
+      text-shadow: 0 0 1px $white;
     }
   }
 

@@ -17,7 +17,8 @@
     line-height: 1;
 
     &__line {
-      transform: translateY(100px);
+      transform: translateY(120px);
+      opacity: 0;
     }
 
     &--red {

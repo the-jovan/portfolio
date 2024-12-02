@@ -19,20 +19,22 @@ const Welcome: FC = () => {
         scrollTrigger: {
           trigger: line,
           markers: true,
+          start: "top 98%",
           toggleActions: "restart none none reverse",
         },
         y: 0,
-        duration: 0.4,
+        opacity: 1,
+        duration: 1,
       });
     });
   });
 
   return (
     <section className="welcome">
-      <div className="welcome-content hideable">
+      <div className="welcome-content">
         <h1 ref={headingRef} className="welcome-title">
           <div className="welcome-title__line">
-            <span>I welcome you</span>
+            <span>I welcome thee</span>
           </div>
           <div className="welcome-title__line">
             <span>
@@ -43,6 +45,9 @@ const Welcome: FC = () => {
             <span>to my humble home</span>
           </div>
         </h1>
+        <p style={{ color: "white" }}>
+          it ain't much but you might find what you're searching for
+        </p>
       </div>
     </section>
   );
